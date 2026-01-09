@@ -1,1 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OneTask</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f2f2f2;
+      font-family: Arial, sans-serif;
+    }
 
+    /* Phone frame */
+    .phone {
+      width: 390px;
+      height: 844px;
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      padding: 32px 24px;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      text-align: center;
+      color: #4A90E2;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      border-radius: 999px;
+      border: 1px solid #000;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 999px;
+      border: none;
+      background: #4A90E2;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .link {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .google {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .google-circle {
+      margin: 12px auto 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .welcome {
+      text-align: center;
+      margin-top: 200px;
+    }
+
+    .welcome h2 {
+      color: #4A90E2;
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .welcome p {
+      color: #4A90E2;
+      font-size: 22px;
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone">
+
+    <!-- LOGIN PAGE -->
+    <div id="login">
+      <h1>OneTask</h1>
+      <div class="card">
+        <input placeholder="Username" />
+        <input type="password" placeholder="Password" />
+        <button onclick="goHome()">Log In</button>
+        <div class="link" onclick="showSignup()">or, Sign Up!</div>
+      </div>
+    </div>
+
+    <!-- SIGN UP PAGE -->
+    <div id="signup" class="hidden">
+      <h1>OneTask</h1>
+      <div class="card">
+        <input placeholder="Email" />
+        <input type="password" placeholder="Password" />
+        <button onclick="showWelcome()">Sign Up</button>
+        <div class="google">or sign up with</div>
+        <div class="google-circle">G</div>
+      </div>
+    </div>
+
+    <!-- WELCOME PAGE -->
+    <div id="welcome" class="hidden">
+      <div class="welcome">
+        <h2>Welcome!</h2>
+        <p>Let’s Get You Started</p>
+        <button onclick="nextStep()">Let’s go!</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function showSignup() {
+      document.getElementById('login').classList.add('hidden');
+      document.getElementById('signup').classList.remove('hidden');
+    }
+
+    function showWelcome() {
+      document.getElementById('signup').classList.add('hidden');
+      document.getElementById('welcome').classList.remove('hidden');
+    }
+
+    function goHome() {
+      alert('Next: Home page');
+    }
+
+    function nextStep() {
+      alert('Next: Goal setup page');
+    }
+  </script>
+
+</body>
+</html>
