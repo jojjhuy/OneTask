@@ -26,25 +26,32 @@ body {
   background: white;
   border-radius: 30px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-  position: relative;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+  position: relative;
 }
 
 /* Screens */
 .screen {
-  position: absolute;
-  inset: 0;
   display: none;
   flex-direction: column;
-  justify-content: center; /* vertically center */
-  align-items: center;     /* horizontally center */
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  animation: fadeSlide 0.4s ease;
-  padding: 0 25px; /* small horizontal padding */
+  padding: 20px 25px;
+  flex: 1;
 }
 
 .screen.active {
   display: flex;
+}
+
+/* Scrollable home screen */
+#home {
+  justify-content: flex-start; /* allow scrolling from top */
+  overflow-y: auto;
+  padding-bottom: 100px; /* space for bottom nav */
 }
 
 /* Animation */
@@ -147,6 +154,7 @@ button {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .signout {
@@ -170,6 +178,53 @@ button {
 
 .done {
   background: #2f80ed !important;
+}
+
+/* Bottom Nav */
+.bottom-nav {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 15px 25px;
+  background: white;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+}
+
+.bottom-nav .nav-items {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #4A90E2;
+}
+
+.bottom-nav .nav-items div {
+  text-align: center;
+}
+
+/* Improved Home Buttons */
+.home-card {
+  width: 100%;
+  background: #f9f9f9;
+  padding: 20px 25px;
+  border-radius: 22px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.home-card-horizontal {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home-card-horizontal button {
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 20px;
+  min-width: 70px;
 }
 </style>
 </head>
@@ -241,25 +296,72 @@ button {
 
   <!-- HOME -->
   <div class="screen" id="home">
-    <div class="top-bar">
-      <h1>OneTask</h1>
-      <div class="signout" onclick="showScreen('login')">Sign Out</div>
+    <div style="width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;padding-bottom:120px;">
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <h1>ONE TASK</h1>
+        <div class="signout" onclick="showScreen('login')">Sign Out</div>
+      </div>
+
+      <h2>Good morning 👋</h2>
+
+      <!-- Goal Card -->
+      <div class="home-card">
+        <strong>Goal</strong>
+        <div id="goalText">No goal set</div>
+        <div class="progress"><div class="progress-fill"></div></div>
+        <button onclick="showScreen('goal')">Change Goal</button>
+      </div>
+
+      <!-- Today's Task -->
+      <div class="home-card">
+        <strong>Today’s Task</strong>
+        <div>Walk 2 km</div>
+        <button id="doneBtn" onclick="markDone()">Mark as Done</button>
+      </div>
+
+      <!-- View History -->
+      <div class="home-card home-card-horizontal">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:22px;">⏰</span>
+          <strong>View History</strong>
+        </div>
+        <button onclick="alert('History coming soon')">Open</button>
+      </div>
+
+      <!-- 30 Day Streak -->
+      <div class="home-card home-card-horizontal">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:22px;">🔥</span>
+          <strong>30 Day Streak</strong>
+        </div>
+        <button onclick="alert('Streak coming soon')">View</button>
+      </div>
+
     </div>
 
-    <h2>Good morning 👋</h2>
-
-    <div class="card">
-      <strong>Goal</strong>
-      <div id="goalText">No goal set</div>
-      <div class="progress"><div class="progress-fill"></div></div>
-      <button style="margin-top:15px" onclick="showScreen('goal')">Change Goal</button>
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+      <div class="nav-items">
+        <div>
+          <div>🏠</div>
+          <div>Home</div>
+        </div>
+        <div>
+          <div>🎯</div>
+          <div>Goals</div>
+        </div>
+        <div>
+          <div>📋</div>
+          <div>Tasks</div>
+        </div>
+        <div>
+          <div>👤</div>
+          <div>Profile</div>
+        </div>
+      </div>
     </div>
 
-    <div class="card">
-      <strong>Today’s Task</strong>
-      <div>Walk 2 km</div>
-      <button id="doneBtn" style="margin-top:15px" onclick="markDone()">Mark as Done</button>
-    </div>
   </div>
 
 </div>
@@ -283,7 +385,7 @@ function togglePass(el) {
 }
 
 function signup() {
-  const email = emailInput = document.getElementById("email").value.trim();
+  const email = document.getElementById("email").value.trim();
   const pass = document.getElementById("password").value.trim();
   if (!email || !pass) return alert("Please enter both email and password.");
   showScreen("welcome");
