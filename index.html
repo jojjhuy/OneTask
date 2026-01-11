@@ -49,15 +49,9 @@ body {
 
 /* Scrollable home screen */
 #home {
-  justify-content: flex-start; /* allow scrolling from top */
+  justify-content: flex-start;
   overflow-y: auto;
-  padding-bottom: 100px; /* space for bottom nav */
-}
-
-/* Animation */
-@keyframes fadeSlide {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  padding-bottom: 100px;
 }
 
 h1 {
@@ -72,7 +66,7 @@ h1 {
 }
 
 /* Cards */
-.card {
+.card, .home-card {
   width: 100%;
   background: #f9f9f9;
   padding: 26px;
@@ -172,8 +166,9 @@ button {
 
 .progress-fill {
   height: 100%;
-  width: 54%;
+  width: 0%; /* START AT 0% */
   background: #4A90E2;
+  transition: width 0.5s ease;
 }
 
 .done {
@@ -201,14 +196,8 @@ button {
   text-align: center;
 }
 
-/* Improved Home Buttons */
+/* Home Cards */
 .home-card {
-  width: 100%;
-  background: #f9f9f9;
-  padding: 20px 25px;
-  border-radius: 22px;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.06);
-  margin-bottom: 15px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -237,12 +226,12 @@ button {
   <div class="screen active" id="login">
     <h1>OneTask</h1>
     <div class="card">
-      <input type="text" placeholder="Username">
+      <input id="loginUser" type="text" placeholder="Username">
       <div class="password-wrapper">
-        <input type="password" placeholder="Password">
+        <input id="loginPass" type="password" placeholder="Password">
         <span class="toggle" onclick="togglePass(this)">Show</span>
       </div>
-      <button onclick="showScreen('home')">Log In</button>
+      <button onclick="login()">Log In</button>
       <div class="link" onclick="showScreen('signup')">or, Sign Up!</div>
     </div>
   </div>
@@ -297,7 +286,7 @@ button {
   <!-- HOME -->
   <div class="screen" id="home">
     <div style="width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;padding-bottom:120px;">
-      <!-- Top Bar -->
+
       <div class="top-bar">
         <h1>ONE TASK</h1>
         <div class="signout" onclick="showScreen('login')">Sign Out</div>
@@ -305,7 +294,6 @@ button {
 
       <h2>Good morning 👋</h2>
 
-      <!-- Goal Card -->
       <div class="home-card">
         <strong>Goal</strong>
         <div id="goalText">No goal set</div>
@@ -313,14 +301,12 @@ button {
         <button onclick="showScreen('goal')">Change Goal</button>
       </div>
 
-      <!-- Today's Task -->
       <div class="home-card">
         <strong>Today’s Task</strong>
         <div>Walk 2 km</div>
         <button id="doneBtn" onclick="markDone()">Mark as Done</button>
       </div>
 
-      <!-- View History -->
       <div class="home-card home-card-horizontal">
         <div style="display:flex;align-items:center;gap:10px;">
           <span style="font-size:22px;">⏰</span>
@@ -329,7 +315,6 @@ button {
         <button onclick="alert('History coming soon')">Open</button>
       </div>
 
-      <!-- 30 Day Streak -->
       <div class="home-card home-card-horizontal">
         <div style="display:flex;align-items:center;gap:10px;">
           <span style="font-size:22px;">🔥</span>
@@ -340,25 +325,12 @@ button {
 
     </div>
 
-    <!-- Bottom Navigation -->
     <div class="bottom-nav">
       <div class="nav-items">
-        <div>
-          <div>🏠</div>
-          <div>Home</div>
-        </div>
-        <div>
-          <div>🎯</div>
-          <div>Goals</div>
-        </div>
-        <div>
-          <div>📋</div>
-          <div>Tasks</div>
-        </div>
-        <div>
-          <div>👤</div>
-          <div>Profile</div>
-        </div>
+        <div><div>🏠</div><div>Home</div></div>
+        <div><div>🎯</div><div>Goals</div></div>
+        <div><div>📋</div><div>Tasks</div></div>
+        <div><div>👤</div><div>Profile</div></div>
       </div>
     </div>
 
@@ -368,6 +340,7 @@ button {
 
 <script>
 let savedGoal = "";
+let progress = 0; // START AT 0%
 
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -375,6 +348,7 @@ function showScreen(id) {
 
   if (id === "home") {
     document.getElementById("goalText").innerText = savedGoal || "No goal set";
+    updateProgressBar();
   }
 }
 
@@ -382,6 +356,18 @@ function togglePass(el) {
   const input = el.previousElementSibling;
   input.type = input.type === "password" ? "text" : "password";
   el.innerText = input.type === "password" ? "Show" : "Hide";
+}
+
+function login() {
+  const user = document.getElementById("loginUser").value.trim();
+  const pass = document.getElementById("loginPass").value.trim();
+
+  if (!user || !pass) {
+    alert("Please enter both username and password.");
+    return;
+  }
+
+  showScreen("home");
 }
 
 function signup() {
@@ -398,11 +384,19 @@ function saveGoal() {
   showScreen("intensity");
 }
 
+function updateProgressBar() {
+  const bar = document.querySelector(".progress-fill");
+  bar.style.width = progress + "%";
+}
+
 function markDone() {
   const btn = document.getElementById("doneBtn");
   btn.innerText = "Completed";
   btn.classList.add("done");
   btn.disabled = true;
+
+  progress = Math.min(progress + 20, 100);
+  updateProgressBar();
 }
 </script>
 
