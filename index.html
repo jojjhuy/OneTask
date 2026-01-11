@@ -51,7 +51,7 @@ body {
 #home {
   justify-content: flex-start;
   overflow-y: auto;
-  padding-bottom: 100px;
+  padding-bottom: 20px; /* Removed extra padding for bottom nav */
 }
 
 h1 {
@@ -175,27 +175,6 @@ button {
   background: #2f80ed !important;
 }
 
-/* Bottom Nav */
-.bottom-nav {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 15px 25px;
-  background: white;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-}
-
-.bottom-nav .nav-items {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  color: #4A90E2;
-}
-
-.bottom-nav .nav-items div {
-  text-align: center;
-}
-
 /* Home Cards */
 .home-card {
   display: flex;
@@ -285,7 +264,7 @@ button {
 
   <!-- HOME -->
   <div class="screen" id="home">
-    <div style="width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;padding-bottom:120px;">
+    <div style="width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;">
 
       <div class="top-bar">
         <h1>ONE TASK</h1>
@@ -307,33 +286,7 @@ button {
         <button id="doneBtn" onclick="markDone()">Mark as Done</button>
       </div>
 
-      <div class="home-card home-card-horizontal">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:22px;">⏰</span>
-          <strong>View History</strong>
-        </div>
-        <button onclick="alert('History coming soon')">Open</button>
-      </div>
-
-      <div class="home-card home-card-horizontal">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:22px;">🔥</span>
-          <strong>30 Day Streak</strong>
-        </div>
-        <button onclick="alert('Streak coming soon')">View</button>
-      </div>
-
     </div>
-
-    <div class="bottom-nav">
-      <div class="nav-items">
-        <div><div>🏠</div><div>Home</div></div>
-        <div><div>🎯</div><div>Goals</div></div>
-        <div><div>📋</div><div>Tasks</div></div>
-        <div><div>👤</div><div>Profile</div></div>
-      </div>
-    </div>
-
   </div>
 
 </div>
